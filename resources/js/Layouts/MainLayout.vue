@@ -32,7 +32,7 @@ watch(error, (value) => {
     if (value) {
         setTimeout(() => {
             page.props.flash.error = null;
-        }, 5000);
+        }, 3000);
     }
 },
 { immediate: true });
@@ -41,7 +41,7 @@ watch(flashSuccess, (value) => {
     if (value) {
         setTimeout(() => {
             page.props.flash.success = null;
-        }, 5000);
+        }, 3000);
     }
 });
 

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Gate;
 class UserPostsController extends Controller
 {
     /**
@@ -61,9 +61,15 @@ class UserPostsController extends Controller
     public function edit(Post $post)
     {
         //
-        return inertia('User/EditPost',[
-            'post' => $post
-        ]);
+        $response = Gate::inspect('update',$post);
+        if($response->allowed()){
+            return inertia('User/EditPost',[
+                'post' => $post
+            ]);
+        }
+        else{
+            return redirect()->route('post.index')->with('error',$response->message());
+        }
     }
 
     /**
@@ -72,14 +78,17 @@ class UserPostsController extends Controller
     public function update(Request $request,Post $post)
     {
         //
-        $post->update($request->validate([
+        $response = Gate::inspect('update',$post);
+        if($response->allowed()){
+            $post->update($request->validate([
                 'title' => 'required|string',
                 'description' => 'required|string',
                 'subreddit' => 'required|string',
                 'category_one' => 'required|string',
                 'category_two' => 'required|string',
             ]));
-        return redirect()->route('user.post.index')->with('success','post Edited successfully');
+            return redirect()->route('user.post.index')->with('success','post Edited successfully');
+        }   
     }
 
     /**
@@ -88,7 +97,13 @@ class UserPostsController extends Controller
     public function destroy(Post $post)
     {
         //
-        $post->delete();
-        return redirect()->route('user.post.index')->with('success','post deleted successfully');
+        $response = Gate::inspect('delete',$post);
+        if($response->allowed()){
+            $post->delete();
+            return redirect()->route('user.post.index')->with('success','post deleted successfully');
+        }
+        else{
+            return redirect()->route('post.index')->with('error',$response->message());
+        }
     }
 }

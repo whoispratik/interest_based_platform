@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class UserCommentController extends Controller
 {
@@ -56,9 +57,15 @@ class UserCommentController extends Controller
     public function edit(Comment $comment)
     {
         //
-        return inertia('User/EditComment',[
-            'comment' => $comment,
-        ]);
+        $response = Gate::inspect('update',$comment);
+        if($response->allowed()){
+            return inertia('User/EditComment',[
+                'comment' => $comment,
+            ]);
+        }
+        else{
+            return redirect()->route('post.index')->with('error',$response->message());
+        }
     }
 
     /**
@@ -67,10 +74,13 @@ class UserCommentController extends Controller
     public function update(Comment $comment,Request $request)
     {
         //
-        $comment->update($request->validate([
-            'description' => 'required|string|min:1',
-        ]));
-        return redirect()->back()->with('success','Çomment Successfully edited');
+        $response = Gate::inspect('update',$comment);
+        if($response->allowed()){
+            $comment->update($request->validate([
+                'description' => 'required|string|min:1',
+            ]));
+            return redirect()->back()->with('success','Comment Successfully edited');
+        }
     }
 
     /**
@@ -79,7 +89,13 @@ class UserCommentController extends Controller
     public function destroy(Comment $comment)
     {
         //
-        $comment->delete();
-        return redirect()->back()->with('success','Comment Successfully deleted');
+        $response = Gate::inspect('delete',$comment);
+        if($response->allowed()){
+            $comment->delete();
+            return redirect()->back()->with('success','Comment Successfully deleted');
+        }
+        else{
+            return redirect()->route('post.index')->with('error',$response->message());
+        }
     }
 }
