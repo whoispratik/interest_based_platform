@@ -16,7 +16,7 @@
             <!-- WARNING: This dropdown requires custom JavaScript -->
             <button class="inline-flex items-center rounded-lg p-2 text-sm">
               <!-- SVG remains -->
-                <dropdown :edit-route="`/user/comment/${comment.id}/edit`" :delete-route="`/user/comment/${comment.id}`" type="comment" v-if="sessionStore.user.id === comment.user_id"></dropdown>
+                <dropdown :edit-route="`/user/comment/${comment.id}/edit`" :delete-route="`/user/comment/${comment.id}`" type="comment" v-if="sessionStore.user?.id === comment.user_id"></dropdown>
             </button>
           </footer>
           <p class="text-gray-700 dark:text-gray-300">{{ comment.description }}</p>

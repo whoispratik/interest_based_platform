@@ -23,7 +23,7 @@ Route::resource('post',PostsController::class)->only(['index','show']);
 
 Route::resource('post.comment',UserCommentController::class)->middleware('auth')->only('store');
 // only for authenticated user
-// prefixi all the url with /realtor and named routes with realtor with a dot notation
+// prefixi all the url with user/ and named routes with user with a dot notation
 Route::prefix('user')->name('user.')->middleware('auth')->group(function (){
     Route::resource('post',UserPostsController::class)->withTrashed();
     Route::resource('comment',UserCommentController::class)->except(['create','store','show']);
