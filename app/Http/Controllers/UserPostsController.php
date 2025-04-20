@@ -14,7 +14,7 @@ class UserPostsController extends Controller
     {
         //
         return inertia('User/Index',[
-            'posts' => $request->user()->posts()->withCount('comments')->mostRecent()->paginate(10)->withQueryString()
+            'posts' => $request->user()->posts()->withCount(['comments','likes'])->mostRecent()->paginate(10)->withQueryString()
         ]);
     }
 

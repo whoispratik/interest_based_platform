@@ -3,10 +3,10 @@
 <h1 class="text-3xl mb-4">Your Comments</h1>
   <section class="grid grid-cols-1 lg:grid-cols-3 gap-2">
     <template v-if="comments.data.length">
-        <Comment v-for="(comment) in comments.data" :key="comment.id" :comment="comment" :from-index-comment="true"></Comment>
+        <ActivityBlock v-for="(comment) in comments.data" :key="comment.id" :data="comment" for-comment></ActivityBlock>
     </template>
     <template v-else>
-        You have no comments :)
+        You have not made any comments :)
     </template>
 </section>
     <div
@@ -19,9 +19,9 @@ class="w-full flex justify-center mt-8 mb-8"
 <script setup>
 const props = defineProps(
     {
-        comments:Array,
+        comments: Object,
     }
 );
-import Comment from '../Post/Components/Comment.vue';
+import ActivityBlock from '../Post/Components/ActivityBlock.vue';
 import Pagination from '@/Components/UI/Pagination.vue';
 </script>
