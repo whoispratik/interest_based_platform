@@ -3,7 +3,7 @@
     <!-- Dropdown button -->
     <div>
       <button 
-        @click="toggleOptions"
+        @click="toggleOptions()"
         type="button" 
         class="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium">
         Options
@@ -19,7 +19,7 @@
         <Link :href="editRoute" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700/50">
           Edit {{ type }}
         </Link>
-        <a @click.prevent.stop="openDeleteModal" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700/50">
+        <a @click.prevent.stop="openDeleteModal()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700/50">
           Delete {{ type }}
         </a>
       </div>
@@ -30,36 +30,18 @@
       v-if="showDeleteModal" 
       :deleteRoute="deleteRoute" 
       :type="type"
-      @close="closeDeleteModal" />
+      @close="closeDeleteModal()" />
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import DeleteModal from '../UI/DeleteModal.vue';
-
+import { useToggle } from '@/Composables/toggle';
 const props = defineProps({
   editRoute: String,
   deleteRoute: String,
   type: String,
 });
-
-// Local state for options menu and delete modal
-const showOptions = ref(false);
-const showDeleteModal = ref(false);
-
-function toggleOptions() {
-  showOptions.value = !showOptions.value;
-}
-
-function openDeleteModal() {
-  // Optionally hide the options menu before showing the modal
-  showOptions.value = false;
-  showDeleteModal.value = true;
-}
-
-function closeDeleteModal() {
-  showDeleteModal.value = false;
-}
+const {showDeleteModal,showOptions,closeDeleteModal,openDeleteModal,toggleOptions} = useToggle();
 </script>

@@ -67,7 +67,7 @@
           </div>
         </form>
         <template v-if="post.comments.length">
-          <Comment v-for="(comment) in post.comments" :key="comment.id" :comment="comment"></Comment>
+          <ActivityBlock v-for="(comment) in post.comments" :key="comment.id" :data="comment" from-show></ActivityBlock>
         </template>
         <template v-else>
           Be the first to comment !!!
@@ -82,12 +82,9 @@
 import { defineProps } from 'vue';
 import dropdown from '@/Components/soph/dropdown.vue';
 import { useSessionStore } from '@/Store/sessionstate';
-import DeleteModal from '@/Components/UI/DeleteModal.vue';
-import { useToggleStore } from '@/Store/toggle';
 import { useUtilityStore } from '@/Store/utility';
 import { UseTimeAgo } from '@vueuse/components';
-import Comment from './Components/Comment.vue';
-const toggleStore = useToggleStore();
+import ActivityBlock from './Components/ActivityBlock.vue';
 const props = defineProps({
     post:Object,
 })

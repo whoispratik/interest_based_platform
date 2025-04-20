@@ -15,13 +15,16 @@ class Post extends Model
         'category_one',
         'category_two',
     ];
-    protected $with = ['user','comments'];
+    protected $with = ['user','comments','likes'];
 
     public function user(){
         return $this->belongsTo(User::class);
     }
     public function comments(){
         return $this->hasMany(Comment::class)->orderByDesc('created_at');;
+    }
+    public function likes(){
+        return $this->hasMany(Like::class);
     }
     public function scopeMostRecent(Builder $query):Builder{
         return $query->orderByDesc('created_at');

@@ -5,6 +5,9 @@
         <Box v-for="(post,index) in posts.data"
 :key="index"
 :postRoute="`/post/${post.id}`"
+:addLikeRoute="`/post/${post.id}/like`"
+:postLikes="post.likes"
+:postComments="post.comments"
 >
 <template #user>{{post.user.first_name+' '+post.user.last_name}}</template>
 <template #timestamp>   <UseTimeAgo v-slot="{ timeAgo }" :time="new Date(post.created_at)">
@@ -15,6 +18,7 @@
 <template #category_one>{{ post.category_one }}</template>
 <template #category_two>{{ post.category_two }}</template>
 <template #commentsCount>{{ post.comments_count }}</template>
+<template #likesCount>{{ post.likes_count }}</template>
 </Box>
     </template>
     <template v-else>

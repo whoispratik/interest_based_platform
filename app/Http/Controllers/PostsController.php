@@ -15,7 +15,7 @@ class PostsController extends Controller
         //
         
         return inertia('Post/Index',[
-            'posts' => Post::withCount('comments')->mostRecent()->paginate(10)->withQueryString(),
+            'posts' => Post::withCount(['comments','likes'])->mostRecent()->paginate(10)->withQueryString(),
         ]);
     }
 

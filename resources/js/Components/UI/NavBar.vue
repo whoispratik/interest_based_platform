@@ -36,7 +36,7 @@
               <div class="hidden sm:ml-6 sm:block">
                 <div class="flex space-x-4">
                   <!-- Current: "bg-gray-800 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                  <Link href="/post" :class="{'bg-gray-800 text-white' : $page.url === '/post'}" class="rounded-md  px-3 py-2 text-sm font-medium text-white">Default Feed</Link>
+                  <Link href="/post" :class="{'bg-gray-700 text-white' : $page.url === '/post'}" class="rounded-md  px-3 py-2 text-sm font-medium text-white">Default Feed</Link>
                   <Link href="#"     :class="{'bg-gray-800 text-white' : $page.url === '/ai' || $page.url.includes('/ai')}"    class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Interest Feed</Link>
                   <a v-if="user" @click="dropdownReportsToggle" ref="analyticsToggleRef" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white relative">Reports
                     <div ref="analyticsDropdownRef" v-show="isReportsDropdown" class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md border border-gray-300 dark:border-gray-800 bg-white ring-1 shadow-lg dark:bg-gray-900  ring-black/5 focus:outline-hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
@@ -94,6 +94,7 @@
                   <!-- Active: "bg-gray-700 outline-hidden", Not Active: "" -->
                   <Link href="/user/post" :class="{'dark:bg-gray-700 outline-hidden' : $page.url ==='/user/post'}" class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Posts</Link>
                   <Link href="/user/comment" :class="{'dark:bg-gray-700 outline-hidden' : $page.url ==='/user/comment'}" class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Comments</Link>
+                  <Link href="/user/like" :class="{'dark:bg-gray-700 outline-hidden' : $page.url ==='/user/like'}" class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Likes</Link>
                   <Link href="/user/post/create" :class="{'dark:bg-gray-700 outline-hidden' : $page.url === '/user/post/create'}" class="block px-4 py-2 text-sm text-gray-5" role="menuitem" tabindex="-1" id="user-menu-item-1">+ New Post</Link>
                   <Link href="/logout" class="block px-4 py-2 text-sm " role="menuitem" tabindex="-1" id="user-menu-item-2">Log out</Link>
                 </div>
@@ -106,12 +107,21 @@
         <div v-if="smallScreenMenu"  id="mobile-menu">
           <div class="space-y-1 px-2 pt-2 pb-3">
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-            <Link href="/post" class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white" >Default Feed</Link>
-            <Link href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Interest Feed</Link>
-            <Link v-if="user" href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Reports</Link>
+            <Link href="/post" class="block rounded-md  px-3 py-2 text-base font-medium text-white"
+             :class="{'bg-gray-700' : $page.url === '/post'}">Default Feed</Link>
+            <Link href="#" 
+            class="block rounded-md px-3 py-2 text-base font-medium text-gray-300  hover:text-white">
+            Interest Feed
+            </Link>
             <template v-if="!user">
-                <Link href="/user-account/create" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Register</Link>
-                <Link href="/login" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Login</Link>
+                <Link href="/user-account/create" 
+                class="block rounded-md px-3 py-2 text-base font-medium text-gray-300  hover:text-white"
+                :class="{'bg-gray-700' : $page.url === '/user-account/create'}"
+                >Register</Link>
+                <Link href="/login" 
+                class="block rounded-md px-3 py-2 text-base font-medium text-gray-300  hover:text-white"
+                :class="{'bg-gray-700' : $page.url === '/login'}"
+                >Login</Link>
               </template>
           </div>
         </div>

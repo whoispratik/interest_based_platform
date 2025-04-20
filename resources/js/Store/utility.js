@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { useForm } from '@inertiajs/vue3';
+import { useSessionStore } from './sessionstate';
 export const useUtilityStore = defineStore('utility', {
   state:() =>
   ({
@@ -20,6 +21,14 @@ export const useUtilityStore = defineStore('utility', {
       this.isProcessing = true;
       this.commentForm.post(`/post/${id}/comment`);
       this.isProcessing = false;
+    },
+    checkLiked(postLikes){
+      const id = useSessionStore().user?.id;
+      return postLikes.find(like => like.user_id === id);
+    },
+    checkCommented(postComments){
+      const id = useSessionStore().user?.id;
+      return postComments.find(comment => comment.user_id === id);
     }
   }
 });
