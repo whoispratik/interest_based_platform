@@ -95,6 +95,7 @@
                   <Link href="/user/post" :class="{'dark:bg-gray-700 outline-hidden' : $page.url ==='/user/post'}" class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Posts</Link>
                   <Link href="/user/comment" :class="{'dark:bg-gray-700 outline-hidden' : $page.url ==='/user/comment'}" class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Comments</Link>
                   <Link href="/user/like" :class="{'dark:bg-gray-700 outline-hidden' : $page.url ==='/user/like'}" class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Likes</Link>
+                  <Link href="/user/interests" :class="{'dark:bg-gray-700 outline-hidden' : $page.url ==='/user/interests'}" class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Interests</Link>
                   <Link href="/user/post/create" :class="{'dark:bg-gray-700 outline-hidden' : $page.url === '/user/post/create'}" class="block px-4 py-2 text-sm text-gray-5" role="menuitem" tabindex="-1" id="user-menu-item-1">+ New Post</Link>
                   <Link href="/logout" class="block px-4 py-2 text-sm " role="menuitem" tabindex="-1" id="user-menu-item-2">Log out</Link>
                 </div>

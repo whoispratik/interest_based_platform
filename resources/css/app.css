@@ -33,7 +33,7 @@
         @apply bg-gray-600 hover:bg-gray-500 text-white font-medium p-2 rounded-md;
     }
     .btn-outline {
-        @apply p-2 rounded-md border shadow-sm border-gray-300 dark:border-gray-800 hover:border-gray-400 hover:bg-gray-50  dark:hover:bg-gray-800;
+        @apply p-2 rounded-md border shadow-sm border-gray-300 dark:border-gray-500 hover:border-gray-400 hover:bg-gray-50  dark:hover:bg-gray-800;
     }
     .border-outline { 
         @apply border-gray-500
