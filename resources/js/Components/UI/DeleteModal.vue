@@ -1,5 +1,5 @@
 <template>
-  <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <div class="relative z-15" aria-labelledby="modal-title" role="dialog" aria-modal="true">
     <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
     <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
       <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
@@ -43,14 +43,10 @@
 <script setup>
 import { defineProps, defineEmits } from 'vue';
 import { Link } from '@inertiajs/vue3';
-import { onMounted } from 'vue';
 
 const props = defineProps({
   deleteRoute: String,
   type: String,
-});
-onMounted(() => {
-  console.log('DeleteModal mounted with route:', props.deleteRoute);
 });
 const emit = defineEmits(['close']);
 </script>
