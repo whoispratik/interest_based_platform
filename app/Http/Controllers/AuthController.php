@@ -34,17 +34,16 @@ class AuthController extends Controller
         //
                
     $credentials=$request->validate([
-        'email'=>'required|email|string',
+        'email'=>'required|email:rfc,dns|string',
         'password'=>'required'
     ]);
     if(!Auth::attempt($credentials,$request->boolean('remember'))){
         throw ValidationException::withMessages([
-            'email'=>'email is wrong',
-            'password' => 'make sure you enter the right password',    
+            'password' => 'These credentials do not match our records.',    
         ]);
     }
     $request->session()->regenerate();
-    return redirect()->intended('/post');
+    return redirect()->intended('/post')->with('success','Signed in successfully');
     }
 
     /**

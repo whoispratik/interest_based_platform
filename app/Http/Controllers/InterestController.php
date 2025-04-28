@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class InterestController extends Controller
 {
@@ -63,11 +64,13 @@ class InterestController extends Controller
     // for interest recalibration/prediction
     public function update(Request $request){
         $user = $request->user();
-        
-        if(!$request->all()){
-            return redirect()->back()->with('error', 'invalid data, try again');
-        }
+        if(empty($request->all()))
+          {
+            $user->interests = null;
+          }
+        else{
         $user->interests = $request->all(); // because of the casting in the model , the given array will automatically be serialized back into JSON for storage:
+        }
         $user->save();
         return redirect()->back()->with('success', 'Interests updated successfully.');
     }

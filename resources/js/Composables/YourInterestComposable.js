@@ -8,7 +8,7 @@ export  function useYourInterest(props) {
     const userPosts = ref(props.userPosts);
     const userComments = ref(props.userComments);
     const userLikes = ref(props.userLikes);
-    const { isFetching, isFinished, data, execute } = useFetch('http://127.0.0.1:9000/interest_prediction',{immediate: false}).post({
+    const { isFetching, isFinished, data, execute, onFetchError} = useFetch('http://127.0.0.1:9000/interest_prediction',{immediate: false}).post({
         posts: props.userPosts,
         likes: props.userLikes,
         comments: props.userComments,
@@ -20,8 +20,19 @@ export  function useYourInterest(props) {
     const isEligibleForInterest = computed(() =>{
         return (userPosts.value.length ?? 0) + (userComments.value.length ?? 0) + (userLikes.value.length ?? 0) >=6 ? true : false;
     })
-   async function interestApiCall() {
-    await execute();
+
+    onFetchError(ctx => {
+        console.log('error from interest prediction api', ctx);
+        return ctx
+      })
+
+    async function interestApiCall() {
+    try{
+        await execute(true);
+    }
+    catch (error) {
+        return; // since execute(true) after onFetchError completes the control of this function will pass to this catch block and then router.put does not get executed
+    }
     router.put('/user/interests', data.value.predicted_interests, {
         onSuccess: () => {
             interestChanged.value = false;

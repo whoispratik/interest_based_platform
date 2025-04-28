@@ -33,4 +33,5 @@ Route::prefix('user')->name('user.')->middleware('auth')->group(function (){
     Route::resource('like',UserLikeController::class)->only(['index']);
     Route::get('interests',[InterestController::class,'index'])->name('interests');
     Route::put('interests',[InterestController::class,'update'])->name('interests.update');
+    Route::get('interest-feed',[UserPostsController::class,'interestFeed']);
     });

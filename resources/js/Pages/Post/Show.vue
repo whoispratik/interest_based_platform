@@ -10,11 +10,11 @@
         <dropdown v-if="sessionState.user?.id === post.user_id" :editRoute="`/user/post/${post.id}/edit`" :deleteRoute="`/user/post/${post.id}`" type="Post"/>
         </div>
         <div class="mt-2 mb-2 flex space-x-2">
-         <span class="rounded-full border border-emerald-900 px-2.5 py-0.5 text-xs whitespace-nowrap text-emerald-700 text-center">
+         <span class="rounded-full border border-emerald-900 px-2.5 py-0.5 text-sm whitespace-nowrap text-emerald-700 text-center">
            {{ post.category_one }}
          </span>
-         <span class="rounded-full border border-emerald-900 px-2.5 py-0.5 text-xs whitespace-nowrap text-emerald-700 text-center">
-           {{ post.category_two }}
+         <span class="rounded-full border border-emerald-900 px-2.5 py-0.5 text-sm whitespace-nowrap text-emerald-700 text-center">
+           {{ post.subreddit }}
          </span>
        </div>
         <address class="mb-6 flex items-center not-italic">
@@ -58,7 +58,7 @@
                   <button type="reset" class="btn-outline">Clear</button>
 
                   <button type="submit" class="btn-primary" :disabled="utilityStore.isProcessing">
-                    <span v-if="!utilityStore.isProcessing">Add</span>
+                    <span v-if="!utilityStore.isProcessing">Comment</span>
                     <span v-else>Adding</span>
                   </button>
                 </div>

@@ -36,17 +36,8 @@
               <div class="hidden sm:ml-6 sm:block">
                 <div class="flex space-x-4">
                   <!-- Current: "bg-gray-800 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                  <Link href="/post" :class="{'bg-gray-700 text-white' : $page.url === '/post'}" class="rounded-md  px-3 py-2 text-sm font-medium text-white">Default Feed</Link>
-                  <Link href="#"     :class="{'bg-gray-800 text-white' : $page.url === '/ai' || $page.url.includes('/ai')}"    class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Interest Feed</Link>
-                  <a v-if="user" @click="dropdownReportsToggle" ref="analyticsToggleRef" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white relative">Reports
-                    <div ref="analyticsDropdownRef" v-show="isReportsDropdown" class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md border border-gray-300 dark:border-gray-800 bg-white ring-1 shadow-lg dark:bg-gray-900  ring-black/5 focus:outline-hidden" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-                      <div class="py-1" role="none">
-                        <!-- Active: "bg-gray-100 text-gray-900 outline-hidden", Not Active: "text-gray-700" -->
-                        <Link href="/reports/your-listings-status" class="block px-4 py-2 text-sm " role="menuitem" tabindex="-1" id="menu-item-0">Your Listing Status</Link>
-                        <Link  href="/reports/your-offers-status" class="block px-4 py-2 text-sm " role="menuitem" tabindex="-1" id="menu-item-0">Your Offers Status</Link>
-                      </div>
-                    </div>
-                  </a>
+                  <Link href="/post" :class="{'bg-gray-700 text-white' : $page.url.includes('/post')}" class="rounded-md  px-3 py-2 text-sm font-medium text-white hover:bg-gray-700">Default Feed</Link>
+                  <Link href="/user/interest-feed"     :class="{'bg-gray-700 text-white' : $page.url.includes('/user/interest-feed')}"    class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-gray-700">Interest Feed</Link>
                 </div>
               </div>
             </div>
@@ -109,9 +100,11 @@
           <div class="space-y-1 px-2 pt-2 pb-3">
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
             <Link href="/post" class="block rounded-md  px-3 py-2 text-base font-medium text-white"
-             :class="{'bg-gray-700' : $page.url === '/post'}">Default Feed</Link>
-            <Link href="#" 
-            class="block rounded-md px-3 py-2 text-base font-medium text-gray-300  hover:text-white">
+             :class="{'bg-gray-700' : $page.url.includes('/post')}">Default Feed</Link>
+            <Link href="/user/interest-feed" 
+            class="block rounded-md px-3 py-2 text-base font-medium text-gray-300  hover:text-white"
+             :class="{'bg-gray-700' : $page.url.includes('/user/interest-feed')}"
+            >
             Interest Feed
             </Link>
             <template v-if="!user">

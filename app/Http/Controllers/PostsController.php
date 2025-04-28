@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class PostsController extends Controller
@@ -10,12 +11,28 @@ class PostsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        
+        $perPage = 10;
+        $searchTerm = $request->query('q', '');      // get raw string, default to empty
+        $searchTerm = trim($searchTerm);
+        if(strlen($searchTerm)){
+            $posts = Post::search($searchTerm)
+                    ->query(function ( Builder $query) {
+                    $query->withCount(['comments', 'likes']);
+                    $query->mostRecent();
+                    })
+                    ->paginate($perPage)
+                    ->withQueryString();
+        }
+        else{
+            $posts = Post::withCount(['comments','likes'])->mostRecent()->paginate($perPage)->withQueryString();
+        }
         return inertia('Post/Index',[
-            'posts' => Post::withCount(['comments','likes'])->mostRecent()->paginate(10)->withQueryString(),
+            'posts' => $posts,
+            'filters' => [
+                'q' => $searchTerm,
+            ]
         ]);
     }
 
