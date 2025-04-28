@@ -19,6 +19,7 @@
         "@inertiajs/vue3": "^2.0.3",
         "@vueuse/components": "^12.7.0",
         "@vueuse/core": "^12.7.0",
+        "lodash": "^4.17.21",
         "pinia": "^3.0.1"
     }
 }

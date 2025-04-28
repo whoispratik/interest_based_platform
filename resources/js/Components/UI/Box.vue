@@ -3,14 +3,14 @@
      <!-- Header: User info on the left, badges on the right -->
      <div class="flex justify-between items-center">
        <div>
-         <a rel="noopener noreferrer" href="#" class="text-sm font-semibold"><slot name="user"></slot></a>
+         <a rel="noopener noreferrer" href="#" class="text-base font-semibold"><slot name="user"></slot></a>
          <span class="block text-xs dark:text-gray-600"><slot name="timestamp"></slot></span>
        </div>
        <div class="flex space-x-2">
-         <span class="rounded-full border border-emerald-900 px-2.5 py-0.5 text-xs whitespace-nowrap text-emerald-700 text-center">
+         <span class="rounded-full border border-emerald-900 px-2.5 py-0.5 text-sm whitespace-nowrap text-emerald-700 text-center">
            <slot name="category_one"></slot>
          </span>
-         <span class="rounded-full border border-emerald-900 px-2.5 py-0.5 text-xs whitespace-nowrap text-emerald-700 text-center">
+         <span class="rounded-full border border-emerald-900 px-2.5 py-0.5 text-sm whitespace-nowrap text-emerald-700 text-center">
            <slot name="category_two">
            </slot>
          </span>
@@ -21,7 +21,7 @@
      <div>
       <Link :href="props.postRoute">
         <h2 class="mb-1 text-xl font-semibold"><slot name="title"></slot></h2>
-        <p class="text-sm dark:text-gray-600">
+        <p class="text-base dark:text-gray-600">
           <slot name="description"></slot>
         </p>
       </Link>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\InterestController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\UserAccountController;
 use App\Http\Controllers\UserCommentController;
@@ -30,4 +31,7 @@ Route::prefix('user')->name('user.')->middleware('auth')->group(function (){
     Route::resource('post',UserPostsController::class);
     Route::resource('comment',UserCommentController::class)->except(['create','store','show']);
     Route::resource('like',UserLikeController::class)->only(['index']);
+    Route::get('interests',[InterestController::class,'index'])->name('interests');
+    Route::put('interests',[InterestController::class,'update'])->name('interests.update');
+    Route::get('interest-feed',[UserPostsController::class,'interestFeed']);
     });

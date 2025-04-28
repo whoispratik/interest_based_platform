@@ -16,7 +16,7 @@
 <template #title>{{ post.title }}</template>
 <template #description>{{ utilityStore.truncateTo25Words(post.description) }}</template>
 <template #category_one>{{ post.category_one }}</template>
-<template #category_two>{{ post.category_two }}</template>
+<template #category_two>{{ post.subreddit }}</template>
 <template #commentsCount>{{ post.comments_count }}</template>
 <template #likesCount>{{ post.likes_count }}</template>
 </Box>
@@ -32,6 +32,7 @@ class="w-full flex justify-center mt-8 mb-8"
     <Pagination :links="posts.links"></Pagination>
     </div>
 </template>
+
 <script setup>
 import Box from '@/Components/UI/Box.vue';
 import Pagination from '@/Components/UI/Pagination.vue';
@@ -39,7 +40,7 @@ import { useUtilityStore } from '@/Store/utility';
 import { UseTimeAgo } from '@vueuse/components';
 const utilityStore = useUtilityStore();
 const props = defineProps({
-    posts:Object
+    posts:Object,
 })
 
 </script>

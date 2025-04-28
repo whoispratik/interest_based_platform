@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Password;
+
 
 class UserAccountController extends Controller
 {
@@ -34,8 +36,14 @@ class UserAccountController extends Controller
         $user = User::create($request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:8|confirmed'
+            'email' => 'required|email:rfc,dns|unique:users',
+            'password' => ['required', 'confirmed','different:email','different:first_name','different:last_name',
+            Password::min(8)
+            ->letters()
+            ->mixedCase()
+            ->numbers()
+            ->symbols()
+            ->uncompromised()]
         ]));
 
         Auth::login($user);

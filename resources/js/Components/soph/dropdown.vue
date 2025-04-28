@@ -19,9 +19,9 @@
         <Link :href="editRoute" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700/50">
           Edit {{ type }}
         </Link>
-        <a @click.prevent.stop="openDeleteModal()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700/50">
+        <button @click.prevent.stop="openDeleteModal()" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-700/50">
           Delete {{ type }}
-        </a>
+        </button>
       </div>
     </div>
 
