@@ -4,7 +4,7 @@
           <div class="relative flex h-16 items-center justify-between">
             <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
               <!-- Mobile menu button-->
-              <button @click="smallScreenMenuToggle" type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:text-white " aria-controls="mobile-menu" aria-expanded="false">
+              <button ref="smallScreenIconRef" @click="smallScreenMenuToggle" type="button" class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:text-white " aria-controls="mobile-menu" aria-expanded="false">
                 <span class="absolute -inset-0.5"></span>
                 <span class="sr-only">Open main menu</span>
                 <!--
@@ -88,7 +88,7 @@
                   <Link href="/user/like" :class="{'dark:bg-gray-700 outline-hidden' : $page.url ==='/user/like'}" class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Likes</Link>
                   <Link href="/user/interests" :class="{'dark:bg-gray-700 outline-hidden' : $page.url ==='/user/interests'}" class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Interests</Link>
                   <Link href="/user/post/create" :class="{'dark:bg-gray-700 outline-hidden' : $page.url === '/user/post/create'}" class="block px-4 py-2 text-sm text-gray-5" role="menuitem" tabindex="-1" id="user-menu-item-1">+ New Post</Link>
-                  <Link href="/logout" class="block px-4 py-2 text-sm " role="menuitem" tabindex="-1" id="user-menu-item-2">Log out</Link>
+                  <SignOutLink delete-route="/logout">Sign Out</SignOutLink>
                 </div>
               </div>
             </div>
@@ -96,7 +96,7 @@
         </div>
       
         <!-- Mobile menu, show/hide based on menu state. -->
-        <div v-if="smallScreenMenu"  id="mobile-menu">
+        <div ref="smallScreenMenuRef" v-if="smallScreenMenu"  id="mobile-menu">
           <div class="space-y-1 px-2 pt-2 pb-3">
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
             <Link href="/post" class="block rounded-md  px-3 py-2 text-base font-medium text-white"
@@ -125,24 +125,25 @@
     import { computed, ref, watch , onMounted } from "vue";
     import { breakpointsTailwind, useBreakpoints  , onClickOutside} from "@vueuse/core";
     import { usePage,Link } from "@inertiajs/vue3";
+    import SignOutLink from "../soph/SignOutLink.vue";
     const breakpoints = useBreakpoints(breakpointsTailwind);
     const smAndLarger =  breakpoints.greaterOrEqual('sm');
     
     const dropdownRef = ref(null);
     const toggleRef = ref(null);
-    const analyticsDropdownRef = ref(null);
-    const analyticsToggleRef = ref(null);
+    const smallScreenMenuRef = ref(null);
+    const smallScreenIconRef = ref(null);
     onMounted(() => {
       onClickOutside(dropdownRef, event => {
           if (isProfileDropdown.value) {
               isProfileDropdown.value = false
           }
       },{capture: true, ignore: [toggleRef]})
-      onClickOutside(analyticsDropdownRef, event => {
-          if (isReportsDropdown.value) {
-              isReportsDropdown.value = false
+      onClickOutside(smallScreenMenuRef, event => {
+          if(smallScreenMenu.value){
+              smallScreenMenu.value = false
           }
-      },{capture: true, ignore: [analyticsToggleRef]})
+      }, {capture: true, ignore: [smallScreenIconRef]})
     })
     
     
@@ -157,9 +158,6 @@
     }
     function smallScreenMenuToggle(){
         smallScreenMenu.value=!smallScreenMenu.value;
-    }
-    function dropdownReportsToggle(){
-        isReportsDropdown.value=!isReportsDropdown.value;
     }
     const notificationCount = computed(
       () => Math.min(page.props.user?.notificationCount, 9),

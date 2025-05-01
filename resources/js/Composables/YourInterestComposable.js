@@ -33,7 +33,7 @@ export  function useYourInterest(props) {
     catch (error) {
         return; // since execute(true) after onFetchError completes the control of this function will pass to this catch block and then router.put does not get executed
     }
-    router.put('/user/interests', data.value.predicted_interests, {
+    router.put('/user/interests', data.value, {
         onSuccess: () => {
             interestChanged.value = false;
         },

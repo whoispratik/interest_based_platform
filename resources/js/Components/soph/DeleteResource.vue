@@ -24,7 +24,6 @@
 </template>
 
 <script setup>
-import { Link } from '@inertiajs/vue3';
 import DeleteModal from '../UI/DeleteModal.vue';
 import { useToggle } from '@/Composables/toggle';
 const props = defineProps({
