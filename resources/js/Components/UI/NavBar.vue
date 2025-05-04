@@ -42,7 +42,7 @@
               </div>
             </div>
             <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-              <Link v-if="user" href="/realtor/notification" as="button" :class="{'rounded-full bg-gray-800':$page.url === '/realtor/notification'}" class="relative  p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+              <Link v-if="user" href="/user/notification" as="button" :class="{'rounded-full bg-gray-800':$page.url === '/realtor/notification'}" class="relative  p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
                 <span class="absolute -inset-1.5"></span>
                 <span class="sr-only">View notifications</span>
                 <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
@@ -160,6 +160,6 @@
         smallScreenMenu.value=!smallScreenMenu.value;
     }
     const notificationCount = computed(
-      () => Math.min(page.props.user?.notificationCount, 9),
+      () => Math.min(page.props.user?.NotificationCount, 9),
     )
     </script>

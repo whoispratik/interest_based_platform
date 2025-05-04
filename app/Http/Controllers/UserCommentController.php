@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use App\Models\Post;
+use App\Notifications\CommentMade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -38,8 +39,11 @@ class UserCommentController extends Controller
         $data = $request->validate([
             'description' => 'required|string|min:1',
         ]);
-        $data['user_id']=$request->user()->id;
-        $post->comments()->create($data);
+        $data['user_id'] = $request->user()->id;
+        $commentInstance = $post->comments()->create($data);
+        if($request->user()->id !== $post->user_id){
+            $post->user->notify(new CommentMade($commentInstance));
+        }
         return redirect()->back()->with('success','comment successfully made');
     }
 
