@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\InterestController;
+use App\Http\Controllers\MarkAllController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\UserAccountController;
 use App\Http\Controllers\UserCommentController;
@@ -34,4 +36,6 @@ Route::prefix('user')->name('user.')->middleware('auth')->group(function (){
     Route::get('interests',[InterestController::class,'index'])->name('interests');
     Route::put('interests',[InterestController::class,'update'])->name('interests.update');
     Route::get('interest-feed',[UserPostsController::class,'interestFeed']);
+    Route::put('notification/mark-all-as-read',[MarkAllController::class,'update']);
+    Route::resource('notification',NotificationController::class)->except(['create','store','show','edit']);
     });
