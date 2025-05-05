@@ -15,10 +15,10 @@
                     <div class="input-error">{{ form.errors.description }}</div>
                 </div>
           </div>
-             <div class="flex gap-3">
+             <div class="flex gap-2">
                  <button type="submit" class="mt-6 btn-primary" :disabled="utilityStore.isProcessing">
                      <span v-if="!utilityStore.isProcessing">Edit</span>
-                     <span v-else>processing</span>
+                     <EyeLoader v-else></EyeLoader>
                     </button>
                     <button type="reset" class="mt-6 btn-danger">
                         clear
@@ -31,39 +31,40 @@
 <script setup>
 import { useForm } from '@inertiajs/vue3';
 import { useUtilityStore } from '@/Store/utility';
+import EyeLoader from '@/Components/Loaders/EyeLoader.vue';
 const utilityStore = useUtilityStore();
 const props = defineProps({
-    post:Object
+    post: Object
 })
 const form = useForm(
     {
         title: props.post.title,
         description: props.post.description,
-        subreddit : '',
-        category_one : '',
-        category_two : '',
+        subreddit: '',
+        category_one: '',
+        category_two: '',
     }
 );
-async function post(){
+async function post() {
     utilityStore.isProcessing = true;
     await categoryApiCall();
     form.put(`/user/post/${props.post.id}`);
     utilityStore.isProcessing = false;
-    if(!utilityStore.isProcessing)
-    form.reset();
+    if (!utilityStore.isProcessing)
+        form.reset();
 }
-async function categoryApiCall(){
+async function categoryApiCall() {
     let data = {
-    title : form.title,
-    description : form.description,
-  }
+        title: form.title,
+        description: form.description,
+    }
     let response = await fetch('http://127.0.0.1:9000/predict_category', {
         method: 'POST',
         headers: {
-       'Content-Type': 'application/json;charset=utf-8'
+            'Content-Type': 'application/json;charset=utf-8'
         },
         body: JSON.stringify(data)
-        });
+    });
     const result = await response.json(); // Parse JSON from the response
     console.log(result);
     form.subreddit = result.predicted_subreddit;

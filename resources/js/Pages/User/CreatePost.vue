@@ -16,9 +16,9 @@
                 </div>
           </div>
              <div class="flex gap-3">
-                 <button type="submit" class="mt-6 btn-primary" :disabled="utilityStore.isProcessing">
+                 <button type="submit" class="mt-6 btn-primary" :disabled="utilityStore.isProcessing || isFetching">
                      <span v-if="!utilityStore.isProcessing">Post</span>
-                     <span v-else>processing</span>
+                     <EyeLoader v-else></EyeLoader>
                     </button>
                     <button type="reset" class="mt-6 btn-danger">
                         clear
@@ -29,40 +29,24 @@
 </section>
 </template>
 <script setup>
-import { useForm } from '@inertiajs/vue3'
 import { useUtilityStore } from '@/Store/utility';
+import EyeLoader from '@/Components/Loaders/EyeLoader.vue';
 const utilityStore = useUtilityStore()
-const form=useForm({
-  title: '',
-  description: '',
-  subreddit : '',
-  category_one : '',
-  category_two : '',
-})
-async function post(){
+import { useCategoryApiDealing } from '@/Composables/CategoryApiDealing';
+async function post() {
+  try {
+    utilityStore.fetchError = false;
     utilityStore.isProcessing = true;
     await categoryApiCall();
     form.post('/user/post');
     utilityStore.isProcessing = false;
-    if(!utilityStore.isProcessing)
-    form.reset();
-}
-async function categoryApiCall(){
-    let data = {
-    title : form.title,
-    description : form.description,
+    // form.reset();
+    console.log('after error try block executes as well')
   }
-    let response = await fetch('http://127.0.0.1:9000/predict_category', {
-        method: 'POST',
-        headers: {
-       'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify(data)
-        });
-    const result = await response.json(); // Parse JSON from the response
-    console.log(result);
-    form.subreddit = result.predicted_subreddit;
-    form.category_one = result.category_1;
-    form.category_two = result.category_2;
+  catch (error) {
+    utilityStore.isProcessing = false;
+    console.error('Error during form submission or API call:', error);
+  }
 }
+const { form, categoryApiCall, isFetching, isFinished } = useCategoryApiDealing();
 </script>
