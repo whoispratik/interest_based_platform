@@ -1,12 +1,13 @@
 <template>
-    <button :disabled="!isInterestEligibile" @click="$emit('interestApiCall')">
-    <span v-if="isFetching && !isFinished">Updating...</span>
+    <button :disabled="!isInterestEligibile || isFetching" @click="$emit('interestApiCall')">
+    <EyeLoader v-if="isFetching && !isFinished"></EyeLoader>
     <span v-else-if="interests">Recalibrate Interests</span>
     <span v-else>Predict Interests</span>
     </button>
 </template>
 <script setup>
- defineProps({
+import EyeLoader from '../Loaders/EyeLoader.vue';
+defineProps({
     isInterestEligibile: {
         type: Boolean,
         required: true,
@@ -23,6 +24,6 @@
         type: Boolean,
         required: true,
     }
- })
- defineEmits(['interestApiCall']);
+})
+defineEmits(['interestApiCall']);
 </script>

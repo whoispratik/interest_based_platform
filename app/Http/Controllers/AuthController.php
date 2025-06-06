@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
-
+use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
 {
@@ -34,7 +34,8 @@ class AuthController extends Controller
         //
                
     $credentials=$request->validate([
-        'email'=>'required|email:rfc,dns|string',
+        'email' => ['required', Rule::email()
+        ->rfcCompliant(strict: true)],
         'password'=>'required'
     ]);
     if(!Auth::attempt($credentials,$request->boolean('remember'))){

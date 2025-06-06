@@ -3,6 +3,7 @@ import { useFetch } from '@vueuse/core';
 import { router } from '@inertiajs/vue3';
 import { isEqual } from 'lodash';
 import { removeEmptyArrays } from '@/utils/InterestUtils';
+import { useUtilityStore } from '@/Store/utility';
 export  function useYourInterest(props) {
     // Define a ref to hold the user data
     const userPosts = ref(props.userPosts);
@@ -16,18 +17,19 @@ export  function useYourInterest(props) {
     const changedInterestState = ref(JSON.parse(JSON.stringify(props.interests))); // first time initialization when the component instance is created
     const interestChanged = ref(false);
     const interestChangeFetching = ref(false);
+    const utilityStore = useUtilityStore()
     // Computed property to check if the user is eligible for interest
     const isEligibleForInterest = computed(() =>{
         return (userPosts.value.length ?? 0) + (userComments.value.length ?? 0) + (userLikes.value.length ?? 0) >=6 ? true : false;
     })
 
     onFetchError(ctx => {
-        console.log('error from interest prediction api', ctx);
-        return ctx
+        utilityStore.fetchError = true;
       })
 
     async function interestApiCall() {
     try{
+        utilityStore.fetchError = false;
         await execute(true);
     }
     catch (error) {
@@ -39,6 +41,7 @@ export  function useYourInterest(props) {
         },
     })
     }
+
     function interestChangeHandler(newValue) {
         
         // grab the one-and-only key from newValue
@@ -52,6 +55,7 @@ export  function useYourInterest(props) {
         }
         interestChanged.value = true;
     }
+
     function interestChangeControllerCall() {
         const data = removeEmptyArrays({...changedInterestState.value})
         router.put('/user/interests', data, {
@@ -60,6 +64,8 @@ export  function useYourInterest(props) {
                 interestChanged.value = false;
             },
             onError: () => {
+                utilityStore.fetchError = true;
+                interestChangeFetching = false;
                 interestChanged.value = true;
             },
             onProgress: () => {
@@ -67,6 +73,7 @@ export  function useYourInterest(props) {
             },
         });
     }
+
     // when the props.interests are updated from the laravel controller 
     watch(() => props.interests, (newValue) => {
         changedInterestState.value = JSON.parse(JSON.stringify(newValue));

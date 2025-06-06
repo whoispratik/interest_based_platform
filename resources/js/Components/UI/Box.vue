@@ -56,27 +56,28 @@
    </div>
    </template>
    <script setup>
-import { Link, router } from '@inertiajs/vue3';  
-import { computed, defineProps} from 'vue';
-import { useUtilityStore } from '@/Store/utility';
-const props = defineProps({
+  import { Link, router } from '@inertiajs/vue3';
+  import { computed, defineProps } from 'vue';
+  import { useUtilityStore } from '@/Store/utility';
+  const props = defineProps({
     postRoute: String,
     postLikes: Array,
     postComments: Array,
     addLikeRoute: String,
-})
-const utilityStore = useUtilityStore();
-const currentMethod = computed(() => {
-    return utilityStore.checkLiked(props.postLikes) ? 'delete' : 'post';
-});
-const currentRoute = computed(() => {
-    return utilityStore.checkLiked(props.postLikes) 
-    ? props.addLikeRoute + `/${utilityStore.checkLiked(props.postLikes).id}`
-    : props.addLikeRoute;});
-function makeRequest(){
-  router.visit(currentRoute.value,{
-    method: currentMethod.value,
-    preserveScroll: true
   })
-}
-  </script>
+  const utilityStore = useUtilityStore();
+  const currentMethod = computed(() => {
+    return utilityStore.checkLiked(props.postLikes) ? 'delete' : 'post';
+  });
+  const currentRoute = computed(() => {
+    return utilityStore.checkLiked(props.postLikes)
+      ? props.addLikeRoute + `/${utilityStore.checkLiked(props.postLikes).id}`
+      : props.addLikeRoute;
+  });
+  function makeRequest() {
+    router.visit(currentRoute.value, {
+      method: currentMethod.value,
+      preserveScroll: true
+    })
+  }
+</script>

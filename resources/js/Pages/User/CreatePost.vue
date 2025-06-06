@@ -2,7 +2,7 @@
     <section class="bg-white dark:bg-gray-900">
   <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
       <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Create Post</h2>
-      <form @submit.prevent.stop="post">
+      <form @submit.prevent.stop="submitHandler">
           <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
               <div class="sm:col-span-2">
                   <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Post Title</label>
@@ -16,11 +16,11 @@
                 </div>
           </div>
              <div class="flex gap-3">
-                 <button type="submit" class="mt-6 btn-primary" :disabled="utilityStore.isProcessing || isFetching">
-                     <span v-if="!utilityStore.isProcessing">Post</span>
+                 <button type="submit" class="mt-6 btn-primary disabled:cursor-not-allowed" :disabled="utilityStore.isProcessing || isFetching">
+                     <span v-if="!utilityStore.isProcessing || !isFetching">Post</span>
                      <EyeLoader v-else></EyeLoader>
                     </button>
-                    <button type="reset" class="mt-6 btn-danger">
+                    <button type="reset" class="mt-6 btn-danger" @click="form.reset()">
                         clear
                     </button>
                 </div>
@@ -33,20 +33,18 @@ import { useUtilityStore } from '@/Store/utility';
 import EyeLoader from '@/Components/Loaders/EyeLoader.vue';
 const utilityStore = useUtilityStore()
 import { useCategoryApiDealing } from '@/Composables/CategoryApiDealing';
-async function post() {
+async function submitHandler() {
   try {
     utilityStore.fetchError = false;
     utilityStore.isProcessing = true;
     await categoryApiCall();
     form.post('/user/post');
     utilityStore.isProcessing = false;
-    // form.reset();
-    console.log('after error try block executes as well')
   }
   catch (error) {
     utilityStore.isProcessing = false;
-    console.error('Error during form submission or API call:', error);
+    //console.error('Error during form submission or API call:', error);
   }
 }
-const { form, categoryApiCall, isFetching, isFinished } = useCategoryApiDealing();
+const { form, categoryApiCall, isFetching } = useCategoryApiDealing();
 </script>

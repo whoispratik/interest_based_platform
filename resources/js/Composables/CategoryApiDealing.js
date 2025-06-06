@@ -4,16 +4,18 @@ import { useUtilityStore }  from "@/Store/utility";
 export function useCategoryApiDealing(props) {
     const utilityStore = useUtilityStore();
     const form=useForm({
-        title: props?.title ?? '',
-        description: props?.description ?? '',
+        title: props?.post?.title ?? '',
+        description: props?.post?.description ?? '',
         subreddit : '',
         category_one : '',
         category_two : '',
       })
-    const { isFetching, isFinished, data, execute, onFetchError} = useFetch('http://127.0.0.1:9000/predict_category',{immediate: false}).post({
-        title: form.title,
-        description: form.description,
-    }).json();
+    const { isFetching, data, execute, onFetchError} = useFetch('http://127.0.0.1:9000/predict_category',{immediate: false}).post(
+        () => ({
+            title: form.title,
+            description: form.description,
+          })
+    ).json();
     onFetchError(ctx => {
         utilityStore.fetchError = true;
         console.log('error from category prediction api', ctx);
@@ -29,5 +31,5 @@ export function useCategoryApiDealing(props) {
         form.category_two = data.value.category_2;
         form.subreddit = data.value.predicted_subreddit;
     }
-      return { form, categoryApiCall, isFetching, isFinished};
+      return { form, categoryApiCall, isFetching};
 }

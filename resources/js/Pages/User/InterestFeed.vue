@@ -3,14 +3,14 @@
         <SearchComponent :filters="filters" controller-route="/user/interest-feed"/>
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
             <template v-if="posts.data.length">
-                <Box v-for="(post,index) in posts.data"
+                <Box v-for="(post) in posts.data"
                 :key="post.id"
                 :postRoute="`/post/${post.id}`"
                 :addLikeRoute="`/post/${post.id}/like`"
                 :postLikes="post.likes"
                 :postComments="post.comments"
                 >
-            <template #user>{{post.user.first_name+' '+post.user.last_name}}</template>
+            <template #user>{{ post.user.first_name + ' ' + post.user.last_name }}</template>
             <template #timestamp> <UseTimeAgo v-slot="{ timeAgo }" :time="new Date(post.created_at)">
       {{ timeAgo }}
     </UseTimeAgo> </template>
@@ -35,7 +35,7 @@
 </template>
 <template v-else>
     <div class="flex justify-center items-center h-screen">
-        <h1 class="text 4xl mb-4">no interests found check your interests page </h1>
+        <h1 class="text 4xl mb-4">No Interests found check your interests page </h1>
     </div>
 </template>
 </template>
@@ -46,9 +46,9 @@
   import { UseTimeAgo } from '@vueuse/components';
   import { defineProps } from 'vue';
   const props = defineProps({
-      interests: Object,
-      posts: Object,
-      filters: Object,
+    interests: Object,
+    posts: Object,
+    filters: Object,
   })
   function truncateTo25Words(text) {
     const words = text.split(' ');
@@ -57,4 +57,4 @@
     }
     return text;
   }
-  </script>
+</script>

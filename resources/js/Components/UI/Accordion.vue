@@ -12,7 +12,7 @@
     </label>
     <div class="max-h-0 overflow-hidden transition-all duration-300 peer-checked:max-h-screen">
       <div class="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        <!-- Dummy show options -->
+        
         <label class="flex items-center space-x-2" v-for="(item) in interestState" :key="item.name">
           <input type="checkbox" class="form-checkbox h-5 w-5 text-emerald-600" v-model="item.isChecked"/>
           <span>{{ item.name }}</span>
@@ -27,13 +27,13 @@
 import { ref, watch, nextTick, onBeforeUpdate, onUpdated } from 'vue'
 const emit = defineEmits(['interestChange'])
 const props = defineProps({
-  id:       { type: String, required: true },
-  interest: { type: Array,  required: true },
+  id: { type: String, required: true },
+  interest: { type: Array, required: true },
   category: { type: String, required: true }
 })
 
 const interestState = ref([])
-const isResetting   = ref(false)
+const isResetting = ref(false)
 
 // 1) WATCH PROP → rebuild internal list
 // it will run immediately in your creation/mounting phase once and then after everytime the props.interest changes
