@@ -16,7 +16,7 @@
  
   <!-- Confirm Button -->
   <div class="mt-6 text-center">
-    <button class="btn-outline" v-if="interestChanged" @click="interestChangeControllerCall" :disabled="interestChangeFetching">
+    <button  v-if="interestChanged" @click="interestChangeControllerCall" :disabled="interestChangeFetching">
       <span v-if="interestChangeFetching">Updating...</span>
       <span>Confirm Interests</span>
     </button>

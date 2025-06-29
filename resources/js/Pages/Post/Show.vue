@@ -31,7 +31,7 @@
         </address>
       </header>
 
-      <p class="text-xl text-gray-700 dark:text-gray-300">{{ post.description }}</p>
+      <p class="text-xl text-gray-700 dark:text-gray-300 overflow-auto">{{ post.description }}</p>
   
 
       <!-- Comment Section -->

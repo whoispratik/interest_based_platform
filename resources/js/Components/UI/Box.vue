@@ -1,16 +1,16 @@
 <template>
-    <div class="flex max-w-lg flex-col space-y-6 overflow-hidden rounded-lg p-6 shadow-md border-gray-100">
+    <div class="flex max-w-lg flex-col space-y-6 overflow-hidden rounded-lg p-6 shadow-2xl">
      <!-- Header: User info on the left, badges on the right -->
      <div class="flex justify-between items-center">
        <div>
-         <a rel="noopener noreferrer" href="#" class="text-base font-semibold"><slot name="user"></slot></a>
+         <a  href="#" class="text-base font-semibold"><slot name="user"></slot></a>
          <span class="block text-xs dark:text-gray-600"><slot name="timestamp"></slot></span>
        </div>
        <div class="flex space-x-2">
-         <span class="rounded-full border border-emerald-900 px-2.5 py-0.5 text-sm whitespace-nowrap text-emerald-700 text-center">
+         <span class="rounded-full border border-emerald-900 px-2.5 py-0.5 text-sm  text-emerald-700 text-center">
            <slot name="category_one"></slot>
          </span>
-         <span class="rounded-full border border-emerald-900 px-2.5 py-0.5 text-sm whitespace-nowrap text-emerald-700 text-center">
+         <span class="rounded-full border border-emerald-900 px-2.5 py-0.5 text-sm  text-emerald-700 text-center">
            <slot name="category_two">
            </slot>
          </span>

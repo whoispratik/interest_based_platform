@@ -35,8 +35,8 @@ class UserAccountController extends Controller
     {
         //
         $user = User::create($request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'first_name' => 'required|alpha:ascii|max:50',
+            'last_name' => 'required|alpha:ascii|max:50',
             'email' => ['required','unique:users', Rule::email()
             ->rfcCompliant(strict: true)],
             'password' => ['required', 'confirmed','different:email','different:first_name','different:last_name',
