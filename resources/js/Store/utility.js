@@ -1,13 +1,15 @@
 import { defineStore } from 'pinia';
 import { useForm } from '@inertiajs/vue3';
 import { useSessionStore } from './sessionstate';
+import {watch} from 'vue';
 export const useUtilityStore = defineStore('utility', {
   state:() =>
   ({
     isProcessing: false,
     commentForm: useForm({
         description: ''
-    })
+    }),
+    fetchError: false,
   }),
   actions: {
     truncateTo25Words(text) {
@@ -29,6 +31,8 @@ export const useUtilityStore = defineStore('utility', {
     checkCommented(postComments){
       const id = useSessionStore().user?.id;
       return postComments.find(comment => comment.user_id === id);
-    }
+    },
   }
 });
+
+

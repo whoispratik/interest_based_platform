@@ -20,7 +20,7 @@
         <address class="mb-6 flex items-center not-italic">
           <div class="mr-3 inline-flex items-center">
             <div>
-              <a href="#" rel="author" class="text-xl font-bold text-gray-900 dark:text-white">By {{post.user.first_name+' '+post.user.last_name}}</a>
+              <a href="#" rel="author" class="text-xl font-bold text-gray-900 dark:text-white">By {{ post.user.first_name + ' ' + post.user.last_name }}</a>
               <p class="text-base text-gray-500 dark:text-gray-400">
                 <UseTimeAgo v-slot="{ timeAgo }" :time="new Date(post.created_at)">
                   {{ timeAgo }}
@@ -31,7 +31,7 @@
         </address>
       </header>
 
-      <p class="text-xl text-gray-700 dark:text-gray-300">{{ post.description }}</p>
+      <p class="text-xl text-gray-700 dark:text-gray-300 overflow-auto">{{ post.description }}</p>
   
 
       <!-- Comment Section -->
@@ -55,12 +55,11 @@
                 <textarea v-model="utilityStore.commentForm.description" id="OrderNotes" class="w-full resize-none border-x-0 border-t-0 border-gray-200 px-0 align-top sm:text-sm dark:border-gray-700 dark:bg-gray-800 dark:text-white" rows="4" placeholder="write a comment" required></textarea>
 
                 <div class="flex items-center justify-end gap-2 py-3">
-                  <button type="reset" class="btn-outline">Clear</button>
-
                   <button type="submit" class="btn-primary" :disabled="utilityStore.isProcessing">
                     <span v-if="!utilityStore.isProcessing">Comment</span>
-                    <span v-else>Adding</span>
+                    <EyeLoader v-else></EyeLoader>
                   </button>
+                  <button type="reset" class="btn-outline">Clear</button>
                 </div>
               </div>
             </div>
@@ -85,8 +84,10 @@ import { useSessionStore } from '@/Store/sessionstate';
 import { useUtilityStore } from '@/Store/utility';
 import { UseTimeAgo } from '@vueuse/components';
 import ActivityBlock from './Components/ActivityBlock.vue';
+import EyeLoader from '@/Components/Loaders/EyeLoader.vue';
+
 const props = defineProps({
-    post:Object,
+  post: Object,
 })
 const sessionState = useSessionStore();
 const utilityStore = useUtilityStore();

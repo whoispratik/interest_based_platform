@@ -2,7 +2,7 @@
     <section class="bg-white dark:bg-gray-900">
   <div class="py-8 px-4 mx-auto max-w-2xl lg:py-16">
       <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Edit Post</h2>
-      <form @submit.prevent.stop="post">
+      <form @submit.prevent.stop="submitHandler">
           <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
               <div class="sm:col-span-2">
                   <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Post Title</label>
@@ -16,12 +16,13 @@
                 </div>
           </div>
              <div class="flex gap-3">
-                 <button type="submit" class="mt-6 btn-primary" :disabled="utilityStore.isProcessing">
-                     <span v-if="!utilityStore.isProcessing">Edit</span>
-                     <span v-else>processing</span>
+                    <button type="submit" class="mt-6 btn-primary disabled:cursor-not-allowed" :disabled="utilityStore.isProcessing || isFetching">
+                     <span v-if="!utilityStore.isProcessing || !isFetching">Edit</span>
+                     <EyeLoader v-else></EyeLoader>
                     </button>
-                    <button type="reset" class="mt-6 btn-danger">
-                        clear
+                    <button   type="button"
+                    class="mt-6 btn-danger" @click="form.reset()">
+                        reset
                     </button>
                 </div>
       </form>
@@ -29,45 +30,27 @@
 </section>
 </template>
 <script setup>
-import { useForm } from '@inertiajs/vue3';
+import { useCategoryApiDealing } from '@/Composables/CategoryApiDealing';
 import { useUtilityStore } from '@/Store/utility';
+import EyeLoader from '@/Components/Loaders/EyeLoader.vue';
 const utilityStore = useUtilityStore();
 const props = defineProps({
-    post:Object
+    post: Object
 })
-const form = useForm(
-    {
-        title: props.post.title,
-        description: props.post.description,
-        subreddit : '',
-        category_one : '',
-        category_two : '',
+
+async function submitHandler() {
+    try {
+        utilityStore.fetchError = false;
+        utilityStore.isProcessing = true;
+        await categoryApiCall();
+        form.put(`/user/post/${props.post.id}`);
+        utilityStore.isProcessing = false;
+        form.reset()
     }
-);
-async function post(){
-    utilityStore.isProcessing = true;
-    await categoryApiCall();
-    form.put(`/user/post/${props.post.id}`);
-    utilityStore.isProcessing = false;
-    if(!utilityStore.isProcessing)
-    form.reset();
+    catch (error) {
+        utilityStore.isProcessing = false;
+        //console.error('Error during form submission or API call:', error);
+    }
 }
-async function categoryApiCall(){
-    let data = {
-    title : form.title,
-    description : form.description,
-  }
-    let response = await fetch('http://127.0.0.1:9000/predict_category', {
-        method: 'POST',
-        headers: {
-       'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify(data)
-        });
-    const result = await response.json(); // Parse JSON from the response
-    console.log(result);
-    form.subreddit = result.predicted_subreddit;
-    form.category_one = result.category_1;
-    form.category_two = result.category_2;
-}
+const { form, categoryApiCall, isFetching } = useCategoryApiDealing(props);
 </script>

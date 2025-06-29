@@ -30,19 +30,19 @@
           <div
                           class="text-l dark:text-emerald-600 text-emerald-300 font-bold text-center"
                       >
-                          <Link href="/">IDP</Link>
+                          <Link href="/">Interest Based Platform</Link>
                       </div>
               </div>
               <div class="hidden sm:ml-6 sm:block">
                 <div class="flex space-x-4">
                   <!-- Current: "bg-gray-800 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-                  <Link href="/post" :class="{'bg-gray-700 text-white' : $page.url.includes('/post')}" class="rounded-md  px-3 py-2 text-sm font-medium text-white hover:bg-gray-700">Default Feed</Link>
-                  <Link href="/user/interest-feed"     :class="{'bg-gray-700 text-white' : $page.url.includes('/user/interest-feed')}"    class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-gray-700">Interest Feed</Link>
+                  <Link href="/post" :class="{ 'bg-gray-700 text-white': $page.url.startsWith('/post') }" class="rounded-md  px-3 py-2 text-sm font-medium text-white hover:bg-gray-700">Default Feed</Link>
+                  <Link href="/user/interest-feed"     :class="{ 'bg-gray-700 text-white': $page.url.includes('/user/interest-feed') }"    class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-gray-700">Interest Feed</Link>
                 </div>
               </div>
             </div>
             <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-              <Link v-if="user" href="/user/notification" as="button" :class="{'rounded-full bg-gray-800':$page.url === '/realtor/notification'}" class="relative  p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
+              <Link v-if="user" href="/user/notification" as="button" :class="{ 'rounded-full bg-gray-800': $page.url === '/realtor/notification' }" class="relative  p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden">
                 <span class="absolute -inset-1.5"></span>
                 <span class="sr-only">View notifications</span>
                 <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
@@ -59,7 +59,7 @@
                   <button ref="toggleRef" @click="dropdownProfileToggle" type="button" class="relative flex rounded-full bg-gray-800 text-sm focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                     <span class="absolute -inset-1.5"></span>
                     <span class="sr-only">Open user menu</span>
-                     <span class="size-8 rounded-full bg-emerald-600 text-amber-50 text-l ">{{ (user.first_name[0]+user.last_name[0]).toUpperCase() }}</span> 
+                     <span class="size-8 rounded-full bg-emerald-600 text-amber-50 text-l ">{{ (user.first_name[0] + user.last_name[0]).toUpperCase() }}</span> 
                   </button>
                 </div>
                 <div v-else-if="smAndLarger">
@@ -83,11 +83,11 @@
                 -->
                 <div ref="dropdownRef" v-show="isProfileDropdown && user" class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md  dark:border-gray-700 bg-white dark:bg-gray-900 py-1 ring-1 shadow-lg dark:text-gray-300 ring-black/5 focus:outline-hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
                   <!-- Active: "bg-gray-700 outline-hidden", Not Active: "" -->
-                  <Link href="/user/post" :class="{'dark:bg-gray-700 outline-hidden' : $page.url ==='/user/post'}" class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Posts</Link>
-                  <Link href="/user/comment" :class="{'dark:bg-gray-700 outline-hidden' : $page.url ==='/user/comment'}" class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Comments</Link>
-                  <Link href="/user/like" :class="{'dark:bg-gray-700 outline-hidden' : $page.url ==='/user/like'}" class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Likes</Link>
-                  <Link href="/user/interests" :class="{'dark:bg-gray-700 outline-hidden' : $page.url ==='/user/interests'}" class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Interests</Link>
-                  <Link href="/user/post/create" :class="{'dark:bg-gray-700 outline-hidden' : $page.url === '/user/post/create'}" class="block px-4 py-2 text-sm text-gray-5" role="menuitem" tabindex="-1" id="user-menu-item-1">+ New Post</Link>
+                  <Link href="/user/post" :class="{ 'dark:bg-gray-700 outline-hidden': $page.url === '/user/post' }" class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Posts</Link>
+                  <Link href="/user/comment" :class="{ 'dark:bg-gray-700 outline-hidden': $page.url === '/user/comment' }" class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Comments</Link>
+                  <Link href="/user/like" :class="{ 'dark:bg-gray-700 outline-hidden': $page.url === '/user/like' }" class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Likes</Link>
+                  <Link href="/user/interests" :class="{ 'dark:bg-gray-700 outline-hidden': $page.url === '/user/interests' }" class="block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Interests</Link>
+                  <Link href="/user/post/create" :class="{ 'dark:bg-gray-700 outline-hidden': $page.url === '/user/post/create' }" class="block px-4 py-2 text-sm text-gray-5" role="menuitem" tabindex="-1" id="user-menu-item-1">+ New Post</Link>
                   <SignOutLink delete-route="/logout">Sign Out</SignOutLink>
                 </div>
               </div>
@@ -100,21 +100,21 @@
           <div class="space-y-1 px-2 pt-2 pb-3">
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
             <Link href="/post" class="block rounded-md  px-3 py-2 text-base font-medium text-white"
-             :class="{'bg-gray-700' : $page.url.includes('/post')}">Default Feed</Link>
+             :class="{ 'bg-gray-700': $page.url.includes('/post') }">Default Feed</Link>
             <Link href="/user/interest-feed" 
             class="block rounded-md px-3 py-2 text-base font-medium text-gray-300  hover:text-white"
-             :class="{'bg-gray-700' : $page.url.includes('/user/interest-feed')}"
+             :class="{ 'bg-gray-700': $page.url.includes('/user/interest-feed') }"
             >
             Interest Feed
             </Link>
             <template v-if="!user">
                 <Link href="/user-account/create" 
                 class="block rounded-md px-3 py-2 text-base font-medium text-gray-300  hover:text-white"
-                :class="{'bg-gray-700' : $page.url === '/user-account/create'}"
+                :class="{ 'bg-gray-700': $page.url === '/user-account/create' }"
                 >Register</Link>
                 <Link href="/login" 
                 class="block rounded-md px-3 py-2 text-base font-medium text-gray-300  hover:text-white"
-                :class="{'bg-gray-700' : $page.url === '/login'}"
+                :class="{ 'bg-gray-700': $page.url === '/login' }"
                 >Login</Link>
               </template>
           </div>
@@ -122,44 +122,44 @@
       </nav>
     </template>  
     <script setup>
-    import { computed, ref, watch , onMounted } from "vue";
-    import { breakpointsTailwind, useBreakpoints  , onClickOutside} from "@vueuse/core";
-    import { usePage,Link } from "@inertiajs/vue3";
+    import { computed, ref, watch, onMounted } from "vue";
+    import { breakpointsTailwind, useBreakpoints, onClickOutside } from "@vueuse/core";
+    import { usePage, Link } from "@inertiajs/vue3";
     import SignOutLink from "../soph/SignOutLink.vue";
     const breakpoints = useBreakpoints(breakpointsTailwind);
-    const smAndLarger =  breakpoints.greaterOrEqual('sm');
-    
+    const smAndLarger = breakpoints.greaterOrEqual('sm');
+
     const dropdownRef = ref(null);
     const toggleRef = ref(null);
     const smallScreenMenuRef = ref(null);
     const smallScreenIconRef = ref(null);
     onMounted(() => {
       onClickOutside(dropdownRef, event => {
-          if (isProfileDropdown.value) {
-              isProfileDropdown.value = false
-          }
-      },{capture: true, ignore: [toggleRef]})
+        if (isProfileDropdown.value) {
+          isProfileDropdown.value = false
+        }
+      }, { capture: true, ignore: [toggleRef] })
       onClickOutside(smallScreenMenuRef, event => {
-          if(smallScreenMenu.value){
-              smallScreenMenu.value = false
-          }
-      }, {capture: true, ignore: [smallScreenIconRef]})
+        if (smallScreenMenu.value) {
+          smallScreenMenu.value = false
+        }
+      }, { capture: true, ignore: [smallScreenIconRef] })
     })
-    
-    
+
+
     const isProfileDropdown = ref(false);
     const smallScreenMenu = ref(false);
     const isReportsDropdown = ref(false);
     const page = usePage();
     const user = computed(() => page.props.user);
-    
-    function dropdownProfileToggle(){
-        isProfileDropdown.value=!isProfileDropdown.value;
+
+    function dropdownProfileToggle() {
+      isProfileDropdown.value = !isProfileDropdown.value;
     }
-    function smallScreenMenuToggle(){
-        smallScreenMenu.value=!smallScreenMenu.value;
+    function smallScreenMenuToggle() {
+      smallScreenMenu.value = !smallScreenMenu.value;
     }
     const notificationCount = computed(
       () => Math.min(page.props.user?.NotificationCount, 9),
     )
-    </script>
+</script>

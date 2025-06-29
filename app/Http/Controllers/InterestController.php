@@ -54,9 +54,27 @@ class InterestController extends Controller
                 'comment' => $comment->description,
             ];
         });
+        // transform user posts to include only title and description
+        $userPosts = $user->posts()
+            ->get(['title', 'description'])
+            ->map(function ($post) {
+                return [
+                    'title'       => $post->title,
+                    'description' => $post->description,
+                ];
+            });
+        // transform user liked posts to include only title and description
+        $userLikes = Post::whereIn('id', $user->likes()->pluck('post_id'))
+            ->get(['title', 'description'])
+            ->map(function ($post) {
+                return [
+                    'title'       => $post->title,
+                    'description' => $post->description,
+                ];
+            });
         return inertia('Interest/YourInterest',[
-            'userPosts' => $user->posts,
-            'userLikes' => Post::whereIn('id',$user->likes()->pluck('post_id'))->get(),
+            'userPosts' => $userPosts,
+            'userLikes' => $userLikes,
             'userComments' => $userComments,
             'interests' => $user->interests, // because of the casting in the model, it will deserialize from JSON into a PHP array
         ]);

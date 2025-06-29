@@ -15,15 +15,17 @@ class="mb-4 border rounded-md shadow-sm border-red-200 dark:border-red-800 bg-re
 </div>
         <slot>Default</slot>
 </main>
+<ErrorToast v-if="utilityStore.fetchError"></ErrorToast>
 </template>
 
 <script setup>
+import ErrorToast from '@/Components/UI/ErrorToast.vue';
 import NavBar from '../Components/UI/NavBar.vue';
-import {  usePage } from "@inertiajs/vue3";
+import { usePage } from "@inertiajs/vue3";
 import { computed, watch } from "vue";
-
+import { useUtilityStore } from '@/Store/utility';
 const page = usePage();
-
+const utilityStore = useUtilityStore();
 const flashSuccess = computed(() => page.props.flash.success);
 const error = computed(() => page.props.flash.error);
 
@@ -35,7 +37,7 @@ watch(error, (value) => {
         }, 3000);
     }
 },
-{ immediate: true });
+    { immediate: true });
 
 watch(flashSuccess, (value) => {
     if (value) {
@@ -45,4 +47,14 @@ watch(flashSuccess, (value) => {
     }
 });
 
+watch(
+    () => utilityStore.fetchError,           // ← now watching the real boolean
+    (newValue) => {
+        if (newValue) {
+            setTimeout(() => {
+                utilityStore.fetchError = false;
+            }, 4000);
+        }
+    }
+);
 </script>
